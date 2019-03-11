@@ -1,5 +1,13 @@
 version: 2
 
+default: &default
+  - checkout
+  - run: uname -a
+  - run: echo "Hello CircleCI!"
+  - run:
+      name: Wait for DB
+      command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+
 jobs:
   jdk-8:
     docker:
@@ -9,12 +17,7 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
     steps:
-      - checkout
-      - run: uname -a
-      - run: echo "Hello CircleCI!"
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+      <<: *default
   jdk-10:
     docker:
       - image: circleci/openjdk:10-jdk-browsers
@@ -23,12 +26,7 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
     steps:
-      - checkout
-      - run: uname -a
-      - run: echo "Hello CircleCI!"
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+      <<: *default
   jdk-11:
     docker:
       - image: circleci/openjdk:11-jdk-browsers
@@ -37,12 +35,7 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
     steps:
-      - checkout
-      - run: uname -a
-      - run: echo "Hello CircleCI!"
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120
+      <<: *default
 workflows:
   version: 2
   build:
