@@ -33,6 +33,7 @@ jobs:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+    parallelism: 4
     <<: *default
   jdk-10:
     docker:
@@ -41,6 +42,7 @@ jobs:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+    parallelism: 4
     <<: *default
   jdk-11:
     docker:
@@ -49,6 +51,7 @@ jobs:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+    parallelism: 4
     <<: *default
 workflows:
   version: 2
