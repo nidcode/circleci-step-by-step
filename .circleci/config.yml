@@ -15,11 +15,14 @@ default: &default
         paths:
           - ~/.m2
         key: spring-demo-{{ .Environment.CACHEKEY }}-{{ checksum "pom.xml" }}
-    - run: mvn package
+    - run: 
+        command: |
+          mvn test -Dtest=$(circleci tests glob "src/test/**/*.java" | circleci tests split --split-by-timings |sed -E 's/^(.*\/)*//' | sed -z 's/\n/,/g')
+          mvn package -Dmaven.test.skip
     - store_test_results:
-        path: target/surefire_reports
+        path: surefire_reports
     - store_artifacts:
-        path: target/demo.jar
+        path: demo-SNAPSHOT.jar
 
 jobs:
   jdk-8:
