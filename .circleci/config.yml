@@ -9,12 +9,12 @@ default: &default
         name: Wait for DB
         command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
     - restore_cache:
-        key: {{ .Environment.CACHEKEY }}-spring-demo-{{ checksum "pom.xml" }}
+        key: spring-demo-{{ .Environment.CACHEKEY }}-{{ checksum "pom.xml" }}
     - run: mvn dependency:go-offline
     - save_cache:
         paths:
           - ~/.m2
-        key: {{ .Environment.CACHEKEY }}-spring-demo-{{ checksum "pom.xml" }}
+        key: spring-demo-{{ .Environment.CACHEKEY }}-{{ checksum "pom.xml" }}
     - run: mvn package
     - store_test_results:
         path: target/surefire_reports
