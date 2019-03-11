@@ -17,7 +17,7 @@ default: &default
         key: spring-demo-{{ .Environment.CACHEKEY }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "pom.xml" }}
     - run: 
         command: |
-          mvn test -Dtest=$(circleci tests glob "src/test/**/*.java" | circleci tests split --split-by-timings |sed -E 's/^(.*\/)*//' | sed -z 's/\n/,/g')
+          mvn test -Dtest=$(circleci tests glob "src/test/**/*.java" | circleci tests split --split-by=timings |sed -E 's/^(.*\/)*//' | sed -z 's/\n/,/g')
           mvn package -Dmaven.test.skip
     - store_test_results:
         path: surefire_reports
