@@ -8,9 +8,16 @@ default: &default
     - run:
         name: Wait for DB
         command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+    - run: mvn dependency:go-offline
+    - run: mvn package
+    - store_test_results:
+        path: target/surefire_reports
+    - store_artifacts:
+        path: target/demo.jar
 
 jobs:
   jdk-8:
+    working_directory: ~/circleci-step-by-step
     docker:
       - image: circleci/openjdk:8-jdk-browsers
       - image: circleci/postgres:9.6.3-alpine
